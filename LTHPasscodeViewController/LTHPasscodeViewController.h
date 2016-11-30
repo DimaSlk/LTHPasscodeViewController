@@ -22,6 +22,15 @@
  @brief Called when the passcode was entered successfully.
  */
 - (void)passcodeWasEnteredSuccessfully;
+
+- (void)touchIDFailedAfterSeveralAttempts;
+
+/**
+ @brief Called when the passcode was enabled.
+ */
+- (void)passcodeWasEnabled;
+
+- (BOOL)validatePasscode:(NSString *)enteredPasscode;
 /**
  @brief Called when the logout button was pressed.
  */
@@ -119,6 +128,7 @@
  @brief The font size for the top label.
  */
 @property (nonatomic, assign) CGFloat   labelFontSize;
+@property (nonatomic, assign) CGFloat   labelFontSizeBig;
 /**
  @brief The font size for the passcode digits.
  */
@@ -127,6 +137,7 @@
  @brief The font for the top label.
  */
 @property (nonatomic, strong) UIFont    *labelFont;
+@property (nonatomic, strong) UIFont    *labelFontBig;
 /**
  @brief The font for the passcode digits.
  */
@@ -228,6 +239,8 @@
  @details The given string is oprional and is displayed below passcode field.
  */
 @property (nonatomic, strong) NSString *enterPasscodeInfoString;
+@property (nonatomic, strong) NSString *requestPasscodeString;
+@property (nonatomic, strong) NSString *requestPasscodeWithoutTouchIDString;
 /**
  @brief A Boolean value that indicates whether the @c enterPasscodeInfoString is displayed (@c YES) or not (@c NO). Default is @c YES.
  */
@@ -240,6 +253,7 @@
  @brief The string displayed when enabling your passcode.
  */
 @property (nonatomic, strong) NSString *enablePasscodeString;
+@property (nonatomic, strong) NSString *confirmPasscodeString;
 /**
  @brief The string displayed when changing your passcode.
  */
@@ -260,6 +274,7 @@
  @brief The string displayed while user unlocks with TouchID.
  */
 @property (nonatomic, strong) NSString *touchIDString;
+@property (nonatomic, strong) UIColor *touchIDButtonColor;
 /**
  @brief The duration of the lock animation.
  */
@@ -322,6 +337,11 @@
  @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
  */
 - (void)showForDisablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
+
+- (void)denyScreen:(NSInteger )attempts;
+
+- (void)resetFailedAttempts;
+
 /**
  @brief  Returns a Boolean value that indicates whether a simple, N digit (4 by default or digitsCount) (@c YES) or a complex passcode will be used (@c NO).
  @return @c YES if the passcode is simple, @c NO if the passcode is complex
@@ -339,6 +359,10 @@
  @brief The passcode view will be shown by default when entering the app from background. This method disables this behavior by removing the observer for UIApplicationDidEnterBackgroundNotification and UIApplicationWillEnterForegroundNotification.
  */
 - (void)disablePasscodeWhenApplicationEntersBackground;
+/**
+ @brief The passcode view will be shown by default when entering the app from background. `disablePasscodeWhenApplicationEntersBackground` can disable that behavior and this method enables it again, by adding back the observers for UIApplicationDidEnterBackgroundNotification and UIApplicationWillEnterForegroundNotification
+ */
+- (void)enablePasscodeWhenApplicationEntersBackground;
 /**
  @brief  Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
  @return @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
