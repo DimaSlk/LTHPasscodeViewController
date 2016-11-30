@@ -1435,6 +1435,11 @@ long timeInSeconds;
     
     if (self.isSimple) {
         
+        if (typedString.length == 1) {
+            
+            timeInSeconds = (long long)([[NSDate date] timeIntervalSince1970] * 1000.0);
+        }
+        
         for (int i = 0; i < _digitsCount; i++) {
             if (typedString.length >= i + 1) _digitTextFieldsArray[i].secureTextEntry = YES;
             else _digitTextFieldsArray[i].secureTextEntry = NO;
