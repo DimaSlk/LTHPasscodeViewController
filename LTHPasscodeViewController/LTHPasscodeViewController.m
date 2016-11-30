@@ -1079,6 +1079,8 @@ long timeInSeconds;
         [self.view addConstraints:@[overlayViewLeftConstraint, overlayViewY, overlayViewHeight, overlayViewWidth]];
     }
     
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
     NSLayoutConstraint *failedAttemptLabelCenterX =
     [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
                                  attribute: NSLayoutAttributeCenterX
@@ -1094,7 +1096,7 @@ long timeInSeconds;
                                     toItem: _digitTextFieldsArray[0]
                                  attribute: NSLayoutAttributeBottom
                                 multiplier: 1.0f
-                                  constant: 20];
+                                  constant: iOSDeviceScreenSize.width == 320 && _iPreferToUseTouchIDButton.isHidden == false ? 0 : 20];
     NSLayoutConstraint *failedAttemptLabelWidth =
     [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
                                  attribute: NSLayoutAttributeWidth
