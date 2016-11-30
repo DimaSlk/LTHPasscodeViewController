@@ -1,25 +1,26 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "Enter Passcode";
+"Enter Passcode" = "Use Touch ID or\n enter your security code";
+"Enter Passcode without touch ID" = "Enter your security code";
 
-"Enter your old passcode" = "Enter your old passcode";
+"Enter your old passcode" = "Enter the security code\n currently in use";
 
-"Enter your passcode" = "Enter your passcode";
-
+"Enter your passcode" = "Please choose a new\n security code";
 "Passcode info" = "You will be asked to enter this code\neverytime you open the application";
 
-"Enable Passcode" = "Enable Passcode";
+"New PIN" = "New PIN";
+"Confirm PIN" = "Confirm PIN";
 
-"Change Passcode" = "Change Passcode";
+"Change Passcode" = "Change PIN";
 
 "Turn Off Passcode" = "Turn Off Passcode";
 
-"Re-enter your passcode" = "Re-enter your passcode";
+"Re-enter your passcode" = "Confirm the new\n security code";
 
-"Re-enter your new passcode" = "Re-enter your new passcode";
+"Re-enter your new passcode" = "Confirm the new\n security code";
 
-"Enter your new passcode" = "Enter your new passcode";
+"Enter your new passcode" = "Choose a new security code";
 
 "Passcodes did not match. Try again." = "Passcodes did not match. Try again.";
 
