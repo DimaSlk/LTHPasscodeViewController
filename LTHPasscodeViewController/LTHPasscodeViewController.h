@@ -368,6 +368,7 @@
  @return @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
  */
 + (BOOL)doesPasscodeExist;
++ (BOOL)isLockScreenDisplayed;
 /**
  @brief	 Retrieves from the keychain the duration while app is in background after which the lock has to be displayed.
  @return The duration.

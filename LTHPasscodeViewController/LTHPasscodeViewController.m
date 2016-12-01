@@ -114,6 +114,11 @@ long timeInSeconds;
 }
 
 
++ (BOOL)isLockScreenDisplayed {
+    return [[self sharedUser] _isLockScreenDisplayed];
+}
+
+
 + (NSTimeInterval)timerDuration {
     return [[self sharedUser] _timerDuration];
 }
@@ -174,6 +179,11 @@ long timeInSeconds;
 
 - (BOOL)_doesPasscodeExist {
     return [self _passcode].length != 0;
+}
+
+
+- (BOOL)_isLockScreenDisplayed {
+    return _isCurrentlyOnScreen && _displayedAsLockScreen && _displayedAsModal;
 }
 
 
