@@ -1794,6 +1794,12 @@ long timeInSeconds;
     _failedAttemptLabel.layer.borderWidth = 0;
     _failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
     _failedAttemptLabel.textColor = _labelTextColor;
+    
+    if (_isUserChangingPasscode) {
+        self.title = LTHPasscodeViewControllerStrings(self.changePasscodeString);
+    } else {
+        self.title = LTHPasscodeViewControllerStrings(self.enablePasscodeString);
+    }
 }
 
 
