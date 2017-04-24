@@ -1767,7 +1767,7 @@ long timeInSeconds;
         [self.navBar removeFromSuperview];
         self.navBar = nil;
     }
-    _isUsingNavBar = NO;
+//    _isUsingNavBar = NO;
     
     _OKButton.hidden = YES;
 }
