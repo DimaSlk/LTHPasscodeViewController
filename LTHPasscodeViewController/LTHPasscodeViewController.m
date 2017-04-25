@@ -1385,6 +1385,11 @@ long timeInSeconds;
     _isUserSwitchingBetweenPasscodeModes = NO;
     
     //    self.title = @"";
+    if (!self.enablingTouchID) {
+        self.title = @"Welcome";
+    }
+    self.enablingTouchID = NO;
+    
     [self _resetUI];
 #if !(TARGET_IPHONE_SIMULATOR)
     [self _setupFingerPrint];
