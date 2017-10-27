@@ -150,6 +150,11 @@ long timeInSeconds;
 }
 
 
++ (void)closeAnimated:(BOOL)animated {
+    [[self sharedUser] _closeAnimated:animated];
+}
+    
+    
 + (void)close {
     [[self sharedUser] _close];
 }
@@ -166,9 +171,14 @@ long timeInSeconds;
 
 
 #pragma mark - Private methods
-- (void)_close {
-    if (_displayedAsLockScreen) [self _dismissMe];
+- (void)_closeAnimated:(BOOL)animated {
+    if (_displayedAsLockScreen) [self _dismissMeAnimated:animated];
     else [self _cancelAndDismissMe];
+}
+    
+    
+- (void)_close {
+    [self _closeAnimated:YES];
 }
 
 
@@ -585,10 +595,75 @@ long timeInSeconds;
 
 
 - (void)_dismissMe {
+    [self _dismissMeAnimated:YES];
+}
+
+
+- (void)_dismissMeAnimated:(BOOL)animated {
     _failedAttempts = 0;
     _isCurrentlyOnScreen = NO;
     [self _resetUI];
     [_passcodeTextField resignFirstResponder];
+    // DMYTRO: START: Added transition without animation
+    if (!animated) {
+        if (_displayedAsLockScreen) {
+            if (LTHiOS8) {
+                self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
+            }
+            else {
+                if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+                    self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
+                }
+                else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                    self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
+                }
+                else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
+                    self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
+                }
+                else {
+                    self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
+                }
+            }
+        }
+        else {
+            // Delete from Keychain
+            if (_isUserTurningPasscodeOff) {
+                [self _deletePasscode];
+            }
+            // Update the Keychain if adding or changing passcode
+            else {
+                [self _savePasscode:_tempPasscode];
+                //finalize type switching
+                if (_isUserSwitchingBetweenPasscodeModes) {
+                    _isUserConfirmingPasscode = NO;
+                    [self setIsSimple:!self.isSimple
+                     inViewController:nil
+                              asModal:_displayedAsModal];
+                }
+            }
+        }
+        
+        if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
+            [self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
+        }
+        // Or, if you prefer by notifications:
+        //        [[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
+        //                                                            object: self
+        //                                                          userInfo: nil];
+        if (_displayedAsLockScreen) {
+            [self.view removeFromSuperview];
+            [self removeFromParentViewController];
+        }
+        else if (_displayedAsModal) {
+            [self dismissViewControllerAnimated:NO
+                                     completion:nil];
+        }
+        else if (!_displayedAsLockScreen) {
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+        return;
+    }
+    // DMYTRO: END: Added transition without animation
     [UIView animateWithDuration: _lockAnimationDuration animations: ^{
         if (_displayedAsLockScreen) {
             if (LTHiOS8) {

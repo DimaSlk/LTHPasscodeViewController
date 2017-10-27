@@ -402,6 +402,7 @@
 /**
  @brief Closes the passcode view controller.
  */
++ (void)closeAnimated:(BOOL)animated;
 + (void)close;
 /**
  @brief Removes the passcode from the keychain and closes the passcode view controller.
